@@ -1,0 +1,39 @@
+# ---- Secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ---- Virtual env / uv ----
+.venv/
+venv/
+
+# ---- Data & outputs ----
+# Raw source documents may contain real (anonymize-me) client data — never commit them.
+data/documents/*
+!data/documents/.gitkeep
+# Generated extraction runs, tables, and traces.
+results/*
+!results/.gitkeep
+
+# ---- OS / editor ----
+.DS_Store
+.idea/
+.vscode/
+
+# ---- Local learning materials (not part of the public repo) ----
+# Instructor briefing, learning tracker, and the extracted P4 spec are for
+# working with Claude locally — the public repo doesn't need them.
+/CLAUDE.md
+/LEARNING.md
+/docs/
