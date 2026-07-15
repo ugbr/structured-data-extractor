@@ -3,6 +3,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, Field, field_validator
 
+
 class Receipt(BaseModel):
     company: str
     address: str
