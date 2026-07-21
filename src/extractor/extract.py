@@ -17,8 +17,9 @@ class ExtractionResult:
     latency_s: float
 
 
-def extract_receipt(text: str, model: str = "claude-opus-4-8") -> ExtractionResult:
-    client = Anthropic()
+def extract_receipt(
+    text: str, client: Anthropic, model: str = "claude-opus-4-8"
+) -> ExtractionResult:
     start = time.perf_counter()
 
     response = client.messages.parse(
