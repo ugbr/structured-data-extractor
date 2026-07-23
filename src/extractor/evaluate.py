@@ -56,14 +56,14 @@ def field_matches(field, pred_value, truth_value):
         return False
 
 
-def cost_per_1000(rows, slug):
+def cost_per_1000(rows, slug, batch=False):
     """Dollars to run 1,000 documents through this model, from its saved token counts."""
     price = PRICES[slug]
     total = 0.0
     for row in rows:
         total += (row["input_tokens"] / 1_000_000 * price["input"]
                   + row["output_tokens"] / 1_000_000 * price["output"])
-    return total * 20  # 50 receipts -> 1,000 docs
+    return total * 20 * (0.5 if batch else 1)  # 50 receipts -> 1,000 docs
 
 
 def latency_p50(rows):
@@ -77,7 +77,7 @@ def print_table():
 
     header = (
         f"{'model':8} {'company':>8} {'address':>8} "
-        f"{'date':>6} {'total':>6} {'cost/1k':>9} {'p50':>7}"
+        f"{'date':>6} {'total':>6} {'cost/1k':>9} {'cost/1k(b)':>9} {'p50':>7}"
     )
     print(header)
     print("-" * len(header))
@@ -95,10 +95,11 @@ def print_table():
             cells.append(f"{hits}/{len(ids)}")
 
         cost = f"${cost_per_1000(rows, slug):.2f}"
+        cost_batch = f"${cost_per_1000(rows, slug, batch=True):.2f}"
         p50 = f"{latency_p50(rows):.2f}s"
         print(
             f"{slug:8} {cells[0]:>8} {cells[1]:>8} {cells[2]:>6} "
-            f"{cells[3]:>6} {cost:>9} {p50:>7}"
+            f"{cells[3]:>6} {cost:>9} {cost_batch:>9} {p50:>7}"
         )
 
 
